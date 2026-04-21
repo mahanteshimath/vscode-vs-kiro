@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VS Code vs Kiro — Developer Experience Report 2025–2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="light"] {
+  --color-bg:#f5f4f1;--color-surface:#f9f8f6;--color-surface-2:#fdfcfb;
+  --color-surface-offset:#eeece8;--color-surface-offset-2:#e6e4de;
+  --color-surface-dynamic:#dedad2;--color-divider:#d5d2cb;--color-border:#c8c4bb;
+  --color-text:#1e1c17;--color-text-muted:#706c62;--color-text-faint:#b0ada5;
+  --color-text-inverse:#f5f4f1;
+  --color-vscode:#0066b8;--color-vscode-light:#d4e8f7;
+  --color-kiro:#7c3aed;--color-kiro-light:#ede9fd;
+  --color-primary:#0a6b6e;--color-primary-hover:#095255;
+  --color-success:#2d7a3a;--color-warning:#8c4a00;--color-error:#9c1f40;
+  --color-border-subtle:rgba(30,28,23,0.1);
+  --shadow-sm:0 1px 3px rgba(30,28,23,0.06);
+  --shadow-md:0 4px 16px rgba(30,28,23,0.08);
+  --shadow-lg:0 12px 40px rgba(30,28,23,0.12);
+  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;
+  --radius-xl:1rem;--radius-full:9999px;
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+  --font-display:'JetBrains Mono','Courier New',monospace;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);
+  --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --text-3xl:clamp(2.5rem,1rem + 4vw,5rem);
+  --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;--space-24:6rem;
+  --content-narrow:640px;--content-default:960px;--content-wide:1200px;
+}
+[data-theme="dark"] {
+  --color-bg:#0f0e0c;--color-surface:#161512;--color-surface-2:#1c1a17;
+  --color-surface-offset:#1a1916;--color-surface-offset-2:#201e1a;
+  --color-surface-dynamic:#2b2925;--color-divider:#262420;--color-border:#332f2a;
+  --color-text:#d8d5cf;--color-text-muted:#7a776f;--color-text-faint:#4a4842;
+  --color-text-inverse:#1a1916;
+  --color-vscode:#4a9fd5;--color-vscode-light:#1a2e3d;
+  --color-kiro:#a78bfa;--color-kiro-light:#1e1530;
+  --color-primary:#3a9ea3;--color-primary-hover:#2d8085;
+  --color-success:#5aab67;--color-warning:#c97b3a;--color-error:#c95a74;
+  --color-border-subtle:rgba(255,255,255,0.06);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.5);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#0f0e0c;--color-surface:#161512;--color-surface-2:#1c1a17;
+  --color-surface-offset:#1a1916;--color-divider:#262420;--color-border:#332f2a;
+  --color-text:#d8d5cf;--color-text-muted:#7a776f;--color-text-faint:#4a4842;
+  --color-vscode:#4a9fd5;--color-vscode-light:#1a2e3d;--color-kiro:#a78bfa;
+  --color-kiro-light:#1e1530;--color-primary:#3a9ea3;--color-success:#5aab67;
+  --color-warning:#c97b3a;--color-error:#c95a74;
+  --color-border-subtle:rgba(255,255,255,0.06);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.25);--shadow-md:0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.5);
+}}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;scroll-padding-top:80px}
+body{min-height:100dvh;line-height:1.6;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg)}
+img,picture,video,canvas,svg{display:block;max-width:100%;height:auto}
+ul[role="list"],ol[role="list"]{list-style:none}
+input,button,textarea,select{font:inherit;color:inherit}
+h1,h2,h3,h4,h5,h6{text-wrap:balance;line-height:1.15}
+p,li,figcaption{text-wrap:pretty;max-width:72ch}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+button{cursor:pointer;background:none;border:none}
+a,button,[role="button"]{transition:color var(--transition),background var(--transition),border-color var(--transition),box-shadow var(--transition),opacity var(--transition)}
+table{border-collapse:collapse;width:100%}
+
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--color-bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--color-border-subtle);padding:var(--space-3) var(--space-6)}
+.header-inner{max-width:var(--content-wide);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.logo{display:flex;align-items:center;gap:var(--space-2);text-decoration:none;color:var(--color-text);font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;letter-spacing:-0.02em}
+.header-nav{display:flex;align-items:center;gap:var(--space-1)}
+.nav-link{padding:var(--space-2) var(--space-3);font-size:var(--text-sm);color:var(--color-text-muted);text-decoration:none;border-radius:var(--radius-md)}
+.nav-link:hover{color:var(--color-text);background:var(--color-surface-offset)}
+.theme-toggle{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);border:1px solid var(--color-border)}
+.theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
+
+/* HERO */
+.hero{padding:clamp(var(--space-16),10vw,var(--space-24)) var(--space-6);max-width:var(--content-wide);margin-inline:auto;display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:center}
+.hero-eyebrow{font-family:var(--font-display);font-size:var(--text-xs);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-4)}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--color-primary)}
+.hero-title{font-family:var(--font-display);font-size:var(--text-3xl);font-weight:600;letter-spacing:-0.04em;line-height:1.05;margin-bottom:var(--space-6)}
+.hero-title .vs-code-text{color:var(--color-vscode)}
+.hero-title .kiro-text{color:var(--color-kiro)}
+.hero-desc{font-size:var(--text-base);color:var(--color-text-muted);max-width:52ch;line-height:1.7;margin-bottom:var(--space-8)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.meta-chip{padding:var(--space-1) var(--space-3);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);font-size:var(--text-xs);color:var(--color-text-muted);font-family:var(--font-display)}
+
+/* VERSUS CARD */
+.versus-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-lg)}
+.versus-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch}
+.tool-header{padding:var(--space-5) var(--space-6);display:flex;flex-direction:column;gap:var(--space-2)}
+.tool-header.vscode-side{background:var(--color-vscode-light);border-right:1px solid var(--color-border)}
+.tool-header.kiro-side{background:var(--color-kiro-light);text-align:right}
+.tool-name{font-family:var(--font-display);font-size:var(--text-lg);font-weight:600}
+.tool-name.vscode{color:var(--color-vscode)}
+.tool-name.kiro{color:var(--color-kiro)}
+.tool-tagline{font-size:var(--text-xs);color:var(--color-text-muted)}
+.vs-badge{background:var(--color-surface-offset);display:flex;align-items:center;justify-content:center;padding:0 var(--space-4);font-family:var(--font-display);font-weight:600;font-size:var(--text-sm);color:var(--color-text-faint);letter-spacing:0.05em;border-left:1px solid var(--color-border);border-right:1px solid var(--color-border)}
+.versus-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--color-border)}
+.stat-cell{padding:var(--space-3) var(--space-5);border-bottom:1px solid var(--color-border-subtle);display:flex;align-items:center;gap:var(--space-2)}
+.stat-cell:nth-child(odd){border-right:1px solid var(--color-border-subtle)}
+.stat-value{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600}
+.stat-label{font-size:var(--text-xs);color:var(--color-text-muted)}
+.stat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-vscode{background:var(--color-vscode)}
+.dot-kiro{background:var(--color-kiro)}
+.dot-neutral{background:var(--color-text-faint)}
+
+/* SECTIONS */
+.section{padding:clamp(var(--space-12),6vw,var(--space-20)) var(--space-6)}
+.section-inner{max-width:var(--content-wide);margin-inline:auto}
+.section-inner.narrow{max-width:var(--content-default)}
+.section-label{font-family:var(--font-display);font-size:var(--text-xs);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:var(--space-3)}
+.section-title{font-family:var(--font-display);font-size:var(--text-xl);font-weight:600;letter-spacing:-0.03em;margin-bottom:var(--space-3)}
+.section-subtitle{font-size:var(--text-base);color:var(--color-text-muted);max-width:60ch;line-height:1.7;margin-bottom:var(--space-10)}
+.divider{height:1px;background:var(--color-divider);max-width:var(--content-wide);margin-inline:auto}
+
+/* SENTIMENT */
+.sentiment-section{background:var(--color-surface)}
+.sentiment-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)}
+.sentiment-card{background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.sentiment-card-header{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-5);padding-bottom:var(--space-4);border-bottom:1px solid var(--color-border-subtle)}
+.sentiment-logo{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sentiment-logo.vscode-logo{background:var(--color-vscode-light)}
+.sentiment-logo.kiro-logo{background:var(--color-kiro-light)}
+.sentiment-tool-name{font-family:var(--font-display);font-size:var(--text-base);font-weight:600}
+.sentiment-source{font-size:var(--text-xs);color:var(--color-text-muted)}
+.rating-bar-group{margin-bottom:var(--space-4)}
+.rating-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2)}
+.rating-name{font-size:var(--text-sm);color:var(--color-text-muted)}
+.rating-pct{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600}
+.rating-bar{height:6px;background:var(--color-surface-offset);border-radius:var(--radius-full);overflow:hidden}
+.rating-fill{height:100%;border-radius:var(--radius-full);transition:width 1.4s cubic-bezier(0.16,1,0.3,1)}
+.fill-vscode{background:var(--color-vscode)}
+.fill-kiro{background:var(--color-kiro)}
+.fill-neutral{background:var(--color-text-faint)}
+.fill-success{background:var(--color-success)}
+.sentiment-quotes{margin-top:var(--space-5);display:flex;flex-direction:column;gap:var(--space-3)}
+.quote-card{background:var(--color-surface);border:1px solid var(--color-border-subtle);border-radius:var(--radius-lg);padding:var(--space-4)}
+.quote-text{font-size:var(--text-sm);line-height:1.6;color:var(--color-text-muted);font-style:italic;margin-bottom:var(--space-2)}
+.quote-text::before{content:'\201C';color:var(--color-primary);font-style:normal}
+.quote-text::after{content:'\201D';color:var(--color-primary);font-style:normal}
+.quote-source{font-size:var(--text-xs);color:var(--color-text-faint);font-family:var(--font-display)}
+
+/* TABLE */
+.compare-section{background:var(--color-bg)}
+.compare-table-wrap{overflow-x:auto;border-radius:var(--radius-xl);border:1px solid var(--color-border);box-shadow:var(--shadow-md)}
+.compare-table{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
+.compare-table thead{background:var(--color-surface)}
+.compare-table th{padding:var(--space-4) var(--space-5);text-align:left;font-family:var(--font-display);font-size:var(--text-xs);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);white-space:nowrap;border-bottom:1px solid var(--color-border)}
+.compare-table th.vscode-col{color:var(--color-vscode)}
+.compare-table th.kiro-col{color:var(--color-kiro)}
+.compare-table td{padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-border-subtle);vertical-align:top;line-height:1.5}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:var(--color-surface)}
+.category-label{font-family:var(--font-display);font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em}
+.td-feature{font-weight:500;color:var(--color-text);max-width:200px}
+.td-vscode,.td-kiro{color:var(--color-text-muted)}
+.badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:2px var(--space-2);border-radius:var(--radius-full);font-size:0.7rem;font-weight:600;font-family:var(--font-display);white-space:nowrap}
+.badge-win-vscode{background:var(--color-vscode-light);color:var(--color-vscode)}
+.badge-win-kiro{background:var(--color-kiro-light);color:var(--color-kiro)}
+.badge-tie{background:var(--color-surface-offset);color:var(--color-text-muted)}
+.badge-vscode-edge{background:var(--color-vscode-light);color:var(--color-vscode);opacity:.75}
+.badge-kiro-edge{background:var(--color-kiro-light);color:var(--color-kiro);opacity:.75}
+
+/* TIMELINE */
+.timeline-section{background:var(--color-surface)}
+.timeline{position:relative;padding-left:var(--space-10)}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:1px;background:var(--color-border)}
+.timeline-item{position:relative;margin-bottom:var(--space-8)}
+.timeline-item:last-child{margin-bottom:0}
+.timeline-dot{position:absolute;left:calc(-1 * var(--space-10) + 11px);top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--color-bg)}
+.dot-blue{background:var(--color-vscode)}
+.dot-purple{background:var(--color-kiro)}
+.timeline-date{font-family:var(--font-display);font-size:var(--text-xs);color:var(--color-text-faint);margin-bottom:var(--space-1)}
+.timeline-title{font-size:var(--text-base);font-weight:600;margin-bottom:var(--space-2)}
+.timeline-body{font-size:var(--text-sm);color:var(--color-text-muted);max-width:60ch}
+.timeline-tool-tag{display:inline-block;padding:2px var(--space-2);border-radius:var(--radius-full);font-size:0.7rem;font-family:var(--font-display);font-weight:600;margin-bottom:var(--space-2)}
+.tag-vscode{background:var(--color-vscode-light);color:var(--color-vscode)}
+.tag-kiro{background:var(--color-kiro-light);color:var(--color-kiro)}
+.tag-both{background:var(--color-surface-offset);color:var(--color-text-muted)}
+
+/* USE CASES */
+.use-cases-section{background:var(--color-bg)}
+.use-cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.use-case-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5);box-shadow:var(--shadow-sm);transition:box-shadow var(--transition),transform var(--transition)}
+.use-case-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.use-case-icon{width:40px;height:40px;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)}
+.icon-vscode{background:var(--color-vscode-light);color:var(--color-vscode)}
+.icon-kiro{background:var(--color-kiro-light);color:var(--color-kiro)}
+.icon-both{background:var(--color-surface-offset);color:var(--color-text-muted)}
+.use-case-title{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-2)}
+.use-case-body{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6}
+.use-case-winner{margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--color-border-subtle);display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--color-text-faint);font-family:var(--font-display)}
+.winner-label{font-weight:600}
+.winner-vscode{color:var(--color-vscode)}
+.winner-kiro{color:var(--color-kiro)}
+
+/* OPINIONS */
+.opinions-section{background:var(--color-surface)}
+.opinions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-5)}
+.opinion-card{background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5);box-shadow:var(--shadow-sm)}
+.opinion-header{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3);margin-bottom:var(--space-4)}
+.opinion-author{display:flex;align-items:center;gap:var(--space-3)}
+.opinion-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:var(--text-xs);font-weight:700;color:white;flex-shrink:0}
+.av-reddit{background:#ff4500}
+.av-hn{background:#ff6600}
+.av-devto{background:#3d3d3d}
+.av-linkedin{background:#0077b5}
+.opinion-name{font-size:var(--text-sm);font-weight:600}
+.opinion-handle{font-size:var(--text-xs);color:var(--color-text-faint);font-family:var(--font-display)}
+.opinion-sentiment{font-size:var(--text-xs)}
+.sentiment-pos{color:var(--color-success)}
+.sentiment-neg{color:var(--color-error)}
+.opinion-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.65;font-style:italic}
+.opinion-text::before{content:'\201C';color:var(--color-primary);font-style:normal;font-weight:700}
+.opinion-text::after{content:'\201D';color:var(--color-primary);font-style:normal;font-weight:700}
+.opinion-footer{margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--color-border-subtle);display:flex;align-items:center;justify-content:space-between}
+.opinion-platform{font-size:var(--text-xs);color:var(--color-text-faint);font-family:var(--font-display)}
+.opinion-topic{padding:2px var(--space-2);background:var(--color-surface);border-radius:var(--radius-full);font-size:0.7rem;font-family:var(--font-display)}
+.topic-vscode{color:var(--color-vscode)}
+.topic-kiro{color:var(--color-kiro)}
+
+/* PRICING */
+.pricing-section{background:var(--color-bg)}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-8)}
+.pricing-card{border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--color-border);box-shadow:var(--shadow-md)}
+.pricing-header{padding:var(--space-5) var(--space-6)}
+.pricing-header.vscode-header{background:var(--color-vscode-light)}
+.pricing-header.kiro-header{background:var(--color-kiro-light)}
+.pricing-tool{font-family:var(--font-display);font-size:var(--text-lg);font-weight:600}
+.pricing-tool.vscode{color:var(--color-vscode)}
+.pricing-tool.kiro{color:var(--color-kiro)}
+.pricing-subtitle{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+.pricing-tiers{background:var(--color-surface);padding:var(--space-5) var(--space-6)}
+.pricing-tier{display:flex;justify-content:space-between;align-items:center;padding:var(--space-3) 0;border-bottom:1px solid var(--color-border-subtle)}
+.pricing-tier:last-child{border-bottom:none}
+.tier-name{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600}
+.tier-detail{font-size:var(--text-xs);color:var(--color-text-muted)}
+.tier-price{font-family:var(--font-display);font-size:var(--text-base);font-weight:700;text-align:right}
+.tier-price span{display:block;font-size:var(--text-xs);color:var(--color-text-muted);font-weight:400}
+
+/* ECOSYSTEM */
+.ecosystem-section{background:var(--color-surface)}
+.ecosystem-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
+.ecosystem-tool-name{font-family:var(--font-display);font-size:var(--text-lg);font-weight:600;margin-bottom:var(--space-5)}
+.eco-item{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--color-border-subtle)}
+.eco-item:last-child{border-bottom:none}
+.eco-icon{margin-top:2px;flex-shrink:0}
+.eco-item-title{font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-1)}
+.eco-item-body{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.5}
+
+/* VERDICT */
+.verdict-section{background:var(--color-bg)}
+.verdict-split{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-8)}
+.verdict-card{border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--color-border);box-shadow:var(--shadow-md)}
+.verdict-card-header{padding:var(--space-5) var(--space-6)}
+.verdict-card-header.vscode-bg{background:var(--color-vscode-light)}
+.verdict-card-header.kiro-bg{background:var(--color-kiro-light)}
+.verdict-tool{font-family:var(--font-display);font-size:var(--text-xl);font-weight:600;margin-bottom:var(--space-2)}
+.verdict-tool.vscode{color:var(--color-vscode)}
+.verdict-tool.kiro{color:var(--color-kiro)}
+.verdict-subtitle{font-size:var(--text-sm);color:var(--color-text-muted)}
+.verdict-body{background:var(--color-surface);padding:var(--space-5) var(--space-6)}
+.verdict-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-3)}
+.verdict-list li{display:flex;align-items:flex-start;gap:var(--space-3);font-size:var(--text-sm)}
+.verdict-list li::before{content:'\2192';font-family:var(--font-display);font-size:var(--text-xs);margin-top:3px;flex-shrink:0;font-weight:700}
+.verdict-list.vscode-list li::before{color:var(--color-vscode)}
+.verdict-list.kiro-list li::before{color:var(--color-kiro)}
+.verdict-conclusion{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);text-align:center}
+.verdict-conclusion p{font-size:var(--text-base);color:var(--color-text-muted);max-width:65ch;margin-inline:auto;line-height:1.7}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--color-divider);padding:var(--space-8) var(--space-6);text-align:center}
+.footer-inner{max-width:var(--content-default);margin-inline:auto}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:var(--space-2);margin-bottom:var(--space-4);font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted)}
+.footer-text{font-size:var(--text-xs);color:var(--color-text-faint);line-height:1.7}
+
+/* SCROLL ANIMATIONS */
+.fade-in{opacity:1}
+@supports(animation-timeline:scroll()){.fade-in{opacity:0;animation:reveal-fade linear both;animation-timeline:view();animation-range:entry 0% entry 75%}}
+@keyframes reveal-fade{to{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:var(--space-8)}
+  .sentiment-grid{grid-template-columns:1fr}
+  .use-cases-grid{grid-template-columns:repeat(2,1fr)}
+  .opinions-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .verdict-split{grid-template-columns:1fr}
+  .ecosystem-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero{padding:var(--space-10) var(--space-4)}
+  .section{padding:var(--space-10) var(--space-4)}
+  .site-header{padding:var(--space-3) var(--space-4)}
+  .header-nav{display:none}
+  .use-cases-grid{grid-template-columns:1fr}
+  .versus-header{grid-template-columns:1fr}
+  .vs-badge{display:none}
+  .versus-stats{grid-template-columns:1fr}
+  .stat-cell:nth-child(odd){border-right:none}
+  .compare-table{min-width:600px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="VS Code vs Kiro Report">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="9" height="9" rx="2" fill="var(--color-vscode)" opacity="0.85"/>
+        <rect x="13" y="2" width="9" height="9" rx="2" fill="var(--color-kiro)" opacity="0.85"/>
+        <rect x="2" y="13" width="9" height="9" rx="2" fill="var(--color-kiro)" opacity="0.3"/>
+        <rect x="13" y="13" width="9" height="9" rx="2" fill="var(--color-vscode)" opacity="0.3"/>
+      </svg>
+      IDE Report
+    </a>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#sentiment" class="nav-link">Sentiment</a>
+      <a href="#comparison" class="nav-link">Comparison</a>
+      <a href="#timeline" class="nav-link">Timeline</a>
+      <a href="#opinions" class="nav-link">Opinions</a>
+      <a href="#verdict" class="nav-link">Verdict</a>
+    </nav>
+    <button class="theme-toggle" data-theme-toggle aria-label="Switch to light mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Developer Experience Report</div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="vs-code-text">VS Code</span><br>vs<br><span class="kiro-text">Kiro</span>
+    </h1>
+    <p class="hero-desc">A synthesis of public developer opinions across Reddit, Hacker News, Dev.to, and LinkedIn — covering one year of community feedback from mid-2025 to April 2026.</p>
+    <div class="hero-meta">
+      <span class="meta-chip">Apr 2025 – Apr 2026</span>
+      <span class="meta-chip">~12 months of data</span>
+      <span class="meta-chip">Reddit · HN · Dev.to · LinkedIn</span>
+      <span class="meta-chip">Community Sentiment</span>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="versus-card">
+      <div class="versus-header">
+        <div class="tool-header vscode-side">
+          <span class="tool-name vscode">VS Code</span>
+          <span class="tool-tagline">Microsoft &middot; Free &middot; Mature</span>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="tool-header kiro-side">
+          <span class="tool-name kiro">Kiro</span>
+          <span class="tool-tagline">AWS &middot; $0–$200/mo &middot; 2025</span>
+        </div>
+      </div>
+      <div class="versus-stats">
+        <div class="stat-cell"><span class="stat-dot dot-vscode"></span><div><div class="stat-value">#1 IDE</div><div class="stat-label">5th year running</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-kiro"></span><div><div class="stat-value">Jul 2025</div><div class="stat-label">General availability</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-vscode"></span><div><div class="stat-value">Free</div><div class="stat-label">Core editor forever</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-kiro"></span><div><div class="stat-value">$20/mo</div><div class="stat-label">Pro plan (1k credits)</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-vscode"></span><div><div class="stat-value">60k+</div><div class="stat-label">Extensions</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-kiro"></span><div><div class="stat-value">OpenVSX</div><div class="stat-label">Extension registry</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-neutral"></span><div><div class="stat-value">Copilot AI</div><div class="stat-label">Multi-model, reactive</div></div></div>
+        <div class="stat-cell"><span class="stat-dot dot-kiro"></span><div><div class="stat-value">Claude 4.6</div><div class="stat-label">Spec-driven, native AI</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SENTIMENT -->
+<section class="section sentiment-section" id="sentiment" aria-labelledby="sentiment-title">
+  <div class="section-inner">
+    <div class="section-label">Community Sentiment Analysis</div>
+    <h2 class="section-title" id="sentiment-title">What Developers Are Saying</h2>
+    <p class="section-subtitle">Key theme frequency and satisfaction patterns based on aggregated developer community feedback over the past year.</p>
+    <div class="sentiment-grid">
+      <div class="sentiment-card">
+        <div class="sentiment-card-header">
+          <div class="sentiment-logo vscode-logo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-vscode)" aria-hidden="true"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.06V4.94a1.5 1.5 0 0 0-.85-1.353zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+          </div>
+          <div>
+            <div class="sentiment-tool-name">Visual Studio Code</div>
+            <div class="sentiment-source">Stack Overflow Survey 2025 &middot; Developer forums</div>
+          </div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Overall Satisfaction</span><span class="rating-pct" style="color:var(--color-success)">92%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-vscode" data-width="92" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Extension Ecosystem</span><span class="rating-pct" style="color:var(--color-vscode)">95%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-vscode" data-width="95" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Performance / Speed</span><span class="rating-pct" style="color:var(--color-success)">82%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-vscode" data-width="82" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">AI Integration (Copilot)</span><span class="rating-pct" style="color:var(--color-vscode)">78%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-vscode" data-width="78" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Would Recommend</span><span class="rating-pct" style="color:var(--color-success)">88%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-success" data-width="88" style="width:0%"></div></div>
+        </div>
+        <div class="sentiment-quotes">
+          <div class="quote-card">
+            <p class="quote-text">Not only is Visual Studio Code the most used IDE for five years in a row, it is also consistently ranked the most desired IDE.</p>
+            <div class="quote-source">&#8212; Stack Overflow Developer Survey 2025</div>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">VS Code is just for manipulating text and using LSP. I personally didn&#8217;t feel any meaningful slowness even after trying alternatives.</p>
+            <div class="quote-source">&#8212; Hacker News &#183; Jul 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sentiment-card">
+        <div class="sentiment-card-header">
+          <div class="sentiment-logo kiro-logo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="9" r="4.5" fill="var(--color-kiro)" opacity="0.9"/>
+              <path d="M12 13.5 Q7 17 6 22" stroke="var(--color-kiro)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M12 13.5 Q17 17 18 22" stroke="var(--color-kiro)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sentiment-tool-name">Kiro (AWS)</div>
+            <div class="sentiment-source">Reddit r/kiroIDE &#183; Dev.to &#183; HN &#183; LinkedIn</div>
+          </div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Spec-Driven Workflow Value</span><span class="rating-pct" style="color:var(--color-kiro)">85%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-kiro" data-width="85" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Enterprise Pilot Satisfaction</span><span class="rating-pct" style="color:var(--color-success)">94%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-success" data-width="94" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Performance vs VS Code</span><span class="rating-pct" style="color:var(--color-warning)">42%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-neutral" data-width="42" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">Extension Ecosystem Maturity</span><span class="rating-pct" style="color:var(--color-warning)">52%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-neutral" data-width="52" style="width:0%"></div></div>
+        </div>
+        <div class="rating-bar-group">
+          <div class="rating-label"><span class="rating-name">AWS Workflow Integration</span><span class="rating-pct" style="color:var(--color-kiro)">96%</span></div>
+          <div class="rating-bar"><div class="rating-fill fill-kiro" data-width="96" style="width:0%"></div></div>
+        </div>
+        <div class="sentiment-quotes">
+          <div class="quote-card">
+            <p class="quote-text">It feels like a real IDE &#8212; well-integrated, cohesive, not just a VS Code wrapper with AI bolted on.</p>
+            <div class="quote-source">&#8212; Dev.to Enterprise Developer &#183; 2026</div>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">Kiro has been the worst AI code editor I have ever tried. It feels more laggy and loads more slowly than any other VSCode fork.</p>
+            <div class="quote-source">&#8212; Reddit r/kiroIDE &#183; Nov 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPARISON TABLE -->
+<section class="section compare-section" id="comparison" aria-labelledby="compare-title">
+  <div class="section-inner">
+    <div class="section-label">Head-to-Head Feature Matrix</div>
+    <h2 class="section-title" id="compare-title">Feature Comparison</h2>
+    <p class="section-subtitle">Sourced from developer reports, official documentation, and community assessments (Feb&#8211;Apr 2026).</p>
+    <div class="compare-table-wrap fade-in">
+      <table class="compare-table" aria-label="VS Code vs Kiro feature comparison">
+        <thead>
+          <tr>
+            <th style="width:200px">Feature</th>
+            <th class="vscode-col">VS Code + Copilot</th>
+            <th class="kiro-col">Kiro</th>
+            <th style="width:130px">Edge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="padding:8px 20px;background:var(--color-surface)"><span class="category-label">Core IDE Experience</span></td></tr>
+          <tr>
+            <td class="td-feature">Base Platform</td>
+            <td class="td-vscode">Microsoft VS Code (standalone)</td>
+            <td class="td-kiro">Code OSS fork &#8212; open source on GitHub</td>
+            <td><span class="badge badge-tie">Tie</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Performance &amp; Speed</td>
+            <td class="td-vscode">Mature, well-optimized, fast startup</td>
+            <td class="td-kiro">Slower startup; extra CPU during codebase indexing</td>
+            <td><span class="badge badge-win-vscode">VS Code</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">UI Familiarity</td>
+            <td class="td-vscode">Industry standard, zero learning curve</td>
+            <td class="td-kiro">Near-identical; imports existing VS Code settings</td>
+            <td><span class="badge badge-vscode-edge">VS Code edge</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Extension Ecosystem</td>
+            <td class="td-vscode">60,000+ extensions (VS Code Marketplace)</td>
+            <td class="td-kiro">OpenVSX registry &#8212; smaller but growing</td>
+            <td><span class="badge badge-win-vscode">VS Code</span></td>
+          </tr>
+          <tr><td colspan="4" style="padding:8px 20px;background:var(--color-surface)"><span class="category-label">AI Capabilities</span></td></tr>
+          <tr>
+            <td class="td-feature">AI Workflow Model</td>
+            <td class="td-vscode">Reactive: suggest as you type, inline chat</td>
+            <td class="td-kiro">Proactive: spec-driven planning before any code</td>
+            <td><span class="badge badge-kiro-edge">Context-dependent</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">AI Model Options</td>
+            <td class="td-vscode">GPT-4o, Claude 3.7, Gemini via Copilot</td>
+            <td class="td-kiro">Claude Sonnet 4.6 + Auto mode (Bedrock)</td>
+            <td><span class="badge badge-vscode-edge">VS Code edge</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Autocomplete Speed</td>
+            <td class="td-vscode">Sub-200ms via IntelliSense + Copilot</td>
+            <td class="td-kiro">Available but not primary focus</td>
+            <td><span class="badge badge-win-vscode">VS Code</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Spec / Planning System</td>
+            <td class="td-vscode">None native; relies on prompting Copilot</td>
+            <td class="td-kiro">Full pipeline: requirements &#8594; design &#8594; tasks (EARS)</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Agent Hooks</td>
+            <td class="td-vscode">Not available natively</td>
+            <td class="td-kiro">Event-driven on file save, create, delete</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Codebase Context</td>
+            <td class="td-vscode">File/project scope via Copilot</td>
+            <td class="td-kiro">Deep codebase, live IDE diagnostics, steering files</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr><td colspan="4" style="padding:8px 20px;background:var(--color-surface)"><span class="category-label">Platform &amp; Integrations</span></td></tr>
+          <tr>
+            <td class="td-feature">AWS Integration</td>
+            <td class="td-vscode">Via AWS Toolkit extension</td>
+            <td class="td-kiro">Native: Lambda, CDK, CloudFormation, CodeCatalyst</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Cloud Platform Support</td>
+            <td class="td-vscode">Cloud-agnostic (GCP, Azure, AWS equally)</td>
+            <td class="td-kiro">AWS-primary; GovCloud US-East &amp; US-West</td>
+            <td><span class="badge badge-vscode-edge">VS Code edge</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">JetBrains / Zed Support</td>
+            <td class="td-vscode">No cross-editor support</td>
+            <td class="td-kiro">Yes, via Kiro CLI + ACP protocol (Feb 2026)</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">MCP Protocol</td>
+            <td class="td-vscode">Yes, via GitHub Copilot</td>
+            <td class="td-kiro">Yes, workspace + global + remote MCP</td>
+            <td><span class="badge badge-tie">Tie</span></td>
+          </tr>
+          <tr><td colspan="4" style="padding:8px 20px;background:var(--color-surface)"><span class="category-label">Cost &amp; Compliance</span></td></tr>
+          <tr>
+            <td class="td-feature">Pricing</td>
+            <td class="td-vscode">Free editor; Copilot $10&#8211;$19/user/mo</td>
+            <td class="td-kiro">Free (50 credits); Pro $20/mo; Pro+ $40/mo</td>
+            <td><span class="badge badge-tie">Tie</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Free Tier Generosity</td>
+            <td class="td-vscode">Copilot Free: 50 chats + 2k completions/mo</td>
+            <td class="td-kiro">50 credits/mo permanent + 30-day Pro trial</td>
+            <td><span class="badge badge-kiro-edge">Kiro edge</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Enterprise Compliance</td>
+            <td class="td-vscode">SOC 2; GitHub Enterprise; GHEC</td>
+            <td class="td-kiro">GovCloud, FedRAMP High (pursuing), IAM IdC, air-gap</td>
+            <td><span class="badge badge-win-kiro">Kiro</span></td>
+          </tr>
+          <tr>
+            <td class="td-feature">Open Source</td>
+            <td class="td-vscode">VS Code: MIT license (core)</td>
+            <td class="td-kiro">Yes &#8212; kirodotdev/Kiro on GitHub</td>
+            <td><span class="badge badge-tie">Tie</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIMELINE -->
+<section class="section timeline-section" id="timeline" aria-labelledby="timeline-title">
+  <div class="section-inner narrow">
+    <div class="section-label">Key Events (Mid 2025 &#8211; Apr 2026)</div>
+    <h2 class="section-title" id="timeline-title">One Year of Milestones</h2>
+    <p class="section-subtitle">Major releases and community flashpoints that shaped developer opinions over the past twelve months.</p>
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Jul 13, 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Kiro Preview Launch &#8212; Amazon enters AI IDE race</div>
+        <p class="timeline-body">Amazon launches Kiro at AWS Summit, introducing spec-driven development. Hacker News thread reaches 500+ comments with excitement about the planning-first approach and skepticism about &#8220;another VS Code fork.&#8221;</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-blue"></div>
+        <div class="timeline-date">Jul&#8211;Aug 2025</div>
+        <div class="timeline-tool-tag tag-vscode">VS Code</div>
+        <div class="timeline-title">VS Code Agent Mode Matures</div>
+        <p class="timeline-body">GitHub Copilot&#8217;s Agent Mode gains traction with improved multi-file editing. Stack Overflow 2025 survey confirms VS Code holds its #1 IDE position for the 5th consecutive year. 84% of developers now use AI tools.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Aug 15, 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Pricing Launch &#8212; Community Backlash</div>
+        <p class="timeline-body">Kiro ends free preview, introduces credit-based plans. Community frustration on Reddit over limits. The Register publishes: &#8220;AWS pricing for Kiro dev tool &#8216;a wallet-wrecking tragedy&#8217;.&#8221; Credits revised shortly after.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Sep 14, 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Revised Pricing + Auto Agent</div>
+        <p class="timeline-body">Kiro revamps to Pro $20/mo, Pro+ $40/mo, Power $200/mo. Introduces &#8220;Auto&#8221; autonomous agent. Developer sentiment on Dev.to and LinkedIn improves notably among AWS-centric teams.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Oct&#8211;Nov 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Critical Reddit Review Goes Viral</div>
+        <p class="timeline-body">A Reddit post calling Kiro &#8220;the worst AI code editor I have ever tried&#8221; cites performance issues, slow file edits, and fragmented settings. Kiro team responds on Discord. Highlights key UX gaps vs VS Code&#8217;s stability.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Nov 16, 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Kiro General Availability + IDE Diagnostics</div>
+        <p class="timeline-body">Kiro reaches GA. Official VS Code migration guide released. IDE diagnostics integration launched &#8212; agents now read live compiler errors. Delta Airlines reports 94% pilot satisfaction and 1,948% Q Developer adoption growth.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Dec 2025</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">AWS re:Invent 2025 &#8212; Center Stage</div>
+        <p class="timeline-body">Kiro featured prominently at re:Invent. Demo generates 2,645 lines of code in under one hour. Enterprise adoption case studies from Delta and Fortune 500 companies. Spec-driven development validated as production-ready.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-purple"></div>
+        <div class="timeline-date">Feb 2026</div>
+        <div class="timeline-tool-tag tag-kiro">Kiro</div>
+        <div class="timeline-title">Kiro 1.25.0 &#8212; ACP Protocol + GovCloud</div>
+        <p class="timeline-body">Agent Client Protocol (ACP) enables JetBrains and Zed to use Kiro as a custom agent. GovCloud live in US-East and US-West. Claude Sonnet 4.6 support added. Autonomous agent rolls out to Pro+ subscribers.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot dot-blue"></div>
+        <div class="timeline-date">Mar&#8211;Apr 2026</div>
+        <div class="timeline-tool-tag tag-vscode">VS Code</div>
+        <div class="timeline-title">VS Code Holds Dominant Position</div>
+        <p class="timeline-body">VS Code maintains its lead as the world&#8217;s most used IDE. Copilot used daily by 51% of professional developers. Despite Kiro&#8217;s enterprise traction, VS Code + Copilot remains the dominant daily-use combination for individual developers globally.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- USE CASES -->
+<section class="section use-cases-section" aria-labelledby="usecases-title">
+  <div class="section-inner">
+    <div class="section-label">Workflow Fit Analysis</div>
+    <h2 class="section-title" id="usecases-title">Who Should Use What</h2>
+    <p class="section-subtitle">Based on developer experience reports and community consensus on each tool&#8217;s strengths.</p>
+    <div class="use-cases-grid">
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-vscode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="use-case-title">Quick Bug Fixes &amp; Refactors</div>
+        <p class="use-case-body">VS Code + Copilot&#8217;s sub-200ms suggestions and inline chat make rapid iteration effortless. No spec generation overhead for a 2-line fix.</p>
+        <div class="use-case-winner"><span class="winner-label winner-vscode">&#8594; VS Code wins</span><span>Speed-first workflow</span></div>
+      </div>
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-kiro">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div class="use-case-title">Complex Greenfield Features</div>
+        <p class="use-case-body">Kiro&#8217;s spec-driven flow catches design mistakes before a line of code is written. Features touching 10+ files with architectural decisions benefit enormously from the requirements &#8594; design &#8594; tasks pipeline.</p>
+        <div class="use-case-winner"><span class="winner-label winner-kiro">&#8594; Kiro wins</span><span>Structured approach</span></div>
+      </div>
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-kiro">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+        </div>
+        <div class="use-case-title">AWS / Cloud-Native Projects</div>
+        <p class="use-case-body">Kiro natively understands Lambda, CDK, CloudFormation. Generates code that fits your existing AWS architecture &#8212; not generic boilerplate with SDK calls bolted on.</p>
+        <div class="use-case-winner"><span class="winner-label winner-kiro">&#8594; Kiro wins</span><span>AWS-native advantage</span></div>
+      </div>
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-vscode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="use-case-title">Solo Dev / Open Source</div>
+        <p class="use-case-body">VS Code&#8217;s free core plus optional Copilot at $10/mo is the go-to for indie developers and open source contributors. Enormous community means answers are always a search away.</p>
+        <div class="use-case-winner"><span class="winner-label winner-vscode">&#8594; VS Code wins</span><span>Community &amp; cost</span></div>
+      </div>
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-kiro">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div class="use-case-title">Enterprise / Regulated Industries</div>
+        <p class="use-case-body">GovCloud availability, IAM Identity Center, private endpoints, and FedRAMP pursuit make Kiro the only AI IDE that qualifies for government, defense, and healthcare procurement.</p>
+        <div class="use-case-winner"><span class="winner-label winner-kiro">&#8594; Kiro wins</span><span>Compliance &amp; governance</span></div>
+      </div>
+      <div class="use-case-card fade-in">
+        <div class="use-case-icon icon-both">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="use-case-title">Junior Developer Onboarding</div>
+        <p class="use-case-body">Dev.to reviewers highlight Kiro for building good habits in juniors &#8212; the spec workflow enforces planning. VS Code is gentler for getting started. Best teams use both in tandem.</p>
+        <div class="use-case-winner"><span class="winner-label winner-kiro">&#8594; Kiro for structure</span><span>VS Code for basics</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMUNITY OPINIONS -->
+<section class="section opinions-section" id="opinions" aria-labelledby="opinions-title">
+  <div class="section-inner">
+    <div class="section-label">Real Developer Voices</div>
+    <h2 class="section-title" id="opinions-title">Public Opinion Highlights</h2>
+    <p class="section-subtitle">Verbatim quotes from developer forums representing the full range of community sentiment &#8212; both praise and criticism.</p>
+    <div class="opinions-grid">
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-reddit">R</div>
+            <div><div class="opinion-name">Reddit User</div><div class="opinion-handle">r/aws &#183; Dec 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-pos">&#9650; Positive</span></div>
+        </div>
+        <p class="opinion-text">AWS Kiro is very impressive. We&#8217;re employing Kiro for generating Jira tickets, interpreting those tickets to code, writing tests, submitting pull requests, and even reviewing PRs. For smaller tasks or individual developers it is very nice and very fast.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Reddit &#183; r/aws</span><span class="opinion-topic topic-kiro">Kiro</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-reddit">R</div>
+            <div><div class="opinion-name">Reddit User</div><div class="opinion-handle">r/kiroIDE &#183; Nov 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-neg">&#9660; Critical</span></div>
+        </div>
+        <p class="opinion-text">Kiro is merely a basic fork of VSCode dressed up with a purple theme and chat interface without substantial enhancements. You could replicate Kiro&#8217;s spec and hook features in 10&#8211;15 minutes using Cursor or Claude&#8217;s custom commands.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Reddit &#183; r/kiroIDE</span><span class="opinion-topic topic-kiro">Kiro</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-hn">HN</div>
+            <div><div class="opinion-name">nwienert</div><div class="opinion-handle">Hacker News &#183; Jul 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-pos">&#9650; Pro-IDE</span></div>
+        </div>
+        <p class="opinion-text">I&#8217;m way way faster with an IDE when I need AI. CMD-T fuzzy finding, drag and drop images into prompts, viewing the agent&#8217;s edits as a diff, seeing the sidebar of the agent&#8217;s progress async alongside my code. The list of reasons an IDE is far better just never ends.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Hacker News</span><span class="opinion-topic topic-vscode">IDE Workflow</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-devto">D</div>
+            <div><div class="opinion-name">Backend Engineer</div><div class="opinion-handle">Dev.to &#183; Aug 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-pos">&#9650; Balanced</span></div>
+        </div>
+        <p class="opinion-text">Working on a payment processing service, Kiro forced me to think through edge cases, security requirements, and integration points before writing code. At first it felt slow. But it does have value for complex tasks. VS Code wins for quick daily work.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Dev.to &#183; codingwithroby</span><span class="opinion-topic topic-kiro">Kiro vs VS Code</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-avatar av-hn">HN</div>
+          <div>
+            <div class="opinion-author">
+              <div>
+                <div class="opinion-name">HN Commenter</div><div class="opinion-handle">Hacker News &#183; Mar 2026</div>
+              </div>
+            </div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-pos">&#9650; Positive</span></div>
+        </div>
+        <p class="opinion-text">I use Kiro IDE primarily as a spec generator. It&#8217;s high-quality for creating and iterating on specs using structured formats like EARS and INCOSE. With a solid Kiro spec and task list, agents are significantly more effective than with plain prompting.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Hacker News</span><span class="opinion-topic topic-kiro">Spec Workflow</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-devto">D</div>
+            <div><div class="opinion-name">React Developer</div><div class="opinion-handle">Dev.to &#183; Jul 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-neg">&#9660; Critical</span></div>
+        </div>
+        <p class="opinion-text">The disconnect between Kiro&#8217;s structured planning and practical implementation became apparent &#8212; great specs don&#8217;t guarantee working code. Working with GitHub Copilot I could iterate quickly and adapt based on real-time feedback. I ultimately turned to Copilot to get the job done.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Dev.to &#183; lotharschulz</span><span class="opinion-topic topic-vscode">VS Code + Copilot</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-linkedin">in</div>
+            <div><div class="opinion-name">Cloud Engineer</div><div class="opinion-handle">LinkedIn &#183; Apr 2026</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-pos">&#9650; Enterprise</span></div>
+        </div>
+        <p class="opinion-text">Kiro is the only tool that won&#8217;t write a line of code without your sign-off on a formal spec. For greenfield enterprise projects, that&#8217;s a game-changer. For brownfield maintenance, it&#8217;s friction. Kiro feels more infrastructure-aware than GitHub Copilot for cloud engineering.</p>
+        <div class="opinion-footer"><span class="opinion-platform">LinkedIn</span><span class="opinion-topic topic-kiro">Enterprise AI</span></div>
+      </div>
+      <div class="opinion-card fade-in">
+        <div class="opinion-header">
+          <div class="opinion-author">
+            <div class="opinion-avatar av-hn">HN</div>
+            <div><div class="opinion-name">jillesvangurp</div><div class="opinion-handle">Hacker News &#183; Jul 2025</div></div>
+          </div>
+          <div class="opinion-sentiment"><span class="sentiment-neg">&#9660; Skeptical</span></div>
+        </div>
+        <p class="opinion-text">Me switching to Kiro, or any of these VS Code forks, would be an enormously massive downgrade. These tools don&#8217;t come close to the utility and features of what I am used to. Trying to catch up with a mature IDE is not their focus or roadmap.</p>
+        <div class="opinion-footer"><span class="opinion-platform">Hacker News</span><span class="opinion-topic topic-vscode">IDE Choice</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="section pricing-section" aria-labelledby="pricing-title">
+  <div class="section-inner">
+    <div class="section-label">Cost Analysis</div>
+    <h2 class="section-title" id="pricing-title">Pricing Breakdown</h2>
+    <p class="section-subtitle">Both Pro tiers match at $20/month, but billing models and free tier generosity differ significantly.</p>
+    <div class="pricing-grid fade-in">
+      <div class="pricing-card">
+        <div class="pricing-header vscode-header">
+          <div class="pricing-tool vscode">VS Code + Copilot</div>
+          <div class="pricing-subtitle">Microsoft GitHub Copilot tiers (Apr 2026)</div>
+        </div>
+        <div class="pricing-tiers">
+          <div class="pricing-tier"><div><div class="tier-name">VS Code Core</div><div class="tier-detail">Full IDE, all 60k+ extensions</div></div><div class="tier-price">Free<span>Forever</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Copilot Free</div><div class="tier-detail">50 chats + 2,000 completions/mo</div></div><div class="tier-price">Free<span>Limited</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Copilot Pro</div><div class="tier-detail">Unlimited + GPT-4o, Claude, Gemini</div></div><div class="tier-price">$10/mo<span>Per user</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Copilot Business</div><div class="tier-detail">Org management, IP indemnity</div></div><div class="tier-price">$19/mo<span>Per user</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Copilot Enterprise</div><div class="tier-detail">Codebase context, security review</div></div><div class="tier-price">$39/mo<span>Per user</span></div></div>
+        </div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-header kiro-header">
+          <div class="pricing-tool kiro">Kiro</div>
+          <div class="pricing-subtitle">Credit-based model (Mar 2026)</div>
+        </div>
+        <div class="pricing-tiers">
+          <div class="pricing-tier"><div><div class="tier-name">Kiro Free</div><div class="tier-detail">50 credits/mo &#8212; permanent tier</div></div><div class="tier-price">Free<span>+30-day 500cr trial</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Kiro Pro</div><div class="tier-detail">1,000 credits/month</div></div><div class="tier-price">$20/mo<span>$0.04/extra credit</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Kiro Pro+</div><div class="tier-detail">2,000 credits/month</div></div><div class="tier-price">$40/mo<span>$0.04/extra credit</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Kiro Power</div><div class="tier-detail">10,000 credits/month</div></div><div class="tier-price">$200/mo<span>High-volume</span></div></div>
+          <div class="pricing-tier"><div><div class="tier-name">Enterprise</div><div class="tier-detail">GovCloud, custom IAM IdC, air-gap</div></div><div class="tier-price">Custom<span>~20% GovCloud premium</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERDICT -->
+<section class="section verdict-section" id="verdict" aria-labelledby="verdict-title">
+  <div class="section-inner">
+    <div class="section-label">Final Assessment</div>
+    <h2 class="section-title" id="verdict-title">The Verdict</h2>
+    <p class="section-subtitle">Community consensus from one year of public developer discourse &#8212; no universal winner exists.</p>
+    <div class="verdict-split fade-in">
+      <div class="verdict-card">
+        <div class="verdict-card-header vscode-bg">
+          <div class="verdict-tool vscode">VS Code</div>
+          <div class="verdict-subtitle">Universal daily driver &#8212; unmatched stability, ecosystem, and flexibility</div>
+        </div>
+        <div class="verdict-body">
+          <ul class="verdict-list vscode-list" role="list">
+            <li>Best for solo developers, freelancers, and small teams</li>
+            <li>60,000+ extensions; unbeatable ecosystem breadth</li>
+            <li>Cloud-agnostic: GCP, Azure, AWS without lock-in</li>
+            <li>Sub-200ms autocomplete; fastest daily coding workflow</li>
+            <li>No learning curve &#8212; industry standard for 5+ years</li>
+            <li>Free core editor; Copilot at $10/mo is the most accessible AI tier</li>
+            <li>Held #1 IDE position for 5 consecutive years (SO Survey 2025)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="verdict-card">
+        <div class="verdict-card-header kiro-bg">
+          <div class="verdict-tool kiro">Kiro</div>
+          <div class="verdict-subtitle">Structured enterprise IDE &#8212; for teams building complex AWS-native systems</div>
+        </div>
+        <div class="verdict-body">
+          <ul class="verdict-list kiro-list" role="list">
+            <li>Best for AWS-native teams and enterprise developers</li>
+            <li>Spec-driven workflow prevents architectural mistakes early</li>
+            <li>Agent hooks create enforceable, automated project standards</li>
+            <li>Only AI IDE with GovCloud and FedRAMP compliance path</li>
+            <li>94% satisfaction score &#8212; Delta Airlines pilot (re:Invent 2025)</li>
+            <li>ACP protocol: works in JetBrains and Zed, not just VS Code</li>
+            <li>Permanent free tier more generous than Copilot&#8217;s free offering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="verdict-conclusion fade-in">
+      <p><strong>Community consensus:</strong> VS Code + Copilot remains dominant for day-to-day development &#8212; 5 years at the top is not coincidence. Kiro earns its place for structured greenfield development, AWS infrastructure work, and regulated enterprise environments. The most productive teams in 2026 use <em>both</em>: VS Code for fast iteration and daily coding, Kiro for complex feature planning and AWS-native builds.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="9" height="9" rx="2" fill="var(--color-vscode)" opacity="0.7"/>
+        <rect x="13" y="2" width="9" height="9" rx="2" fill="var(--color-kiro)" opacity="0.7"/>
+        <rect x="2" y="13" width="9" height="9" rx="2" fill="var(--color-kiro)" opacity="0.25"/>
+        <rect x="13" y="13" width="9" height="9" rx="2" fill="var(--color-vscode)" opacity="0.25"/>
+      </svg>
+      VS Code vs Kiro &#8212; Developer Experience Report 2025&#8211;2026
+    </div>
+    <p class="footer-text" style="margin-bottom:var(--space-3)">Curated by <a href="https://www.linkedin.com/in/mahantesh-hiremath/" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);text-decoration:none;font-weight:600;transition:opacity 0.18s" onmouseover="this.style.opacity=.75" onmouseout="this.style.opacity=1">Mahantesh Hiremath</a></p>
+    <p class="footer-text">Data synthesized from Reddit (r/kiroIDE, r/aws, r/ClaudeAI), Hacker News, Dev.to, LinkedIn, Stack Overflow Developer Survey 2025,<br>
+    official documentation at kiro.dev and code.visualstudio.com, and industry publications (Apr 2025 &#8211; Apr 2026).<br>
+    Satisfaction ratings are qualitative aggregates based on community frequency analysis, not official survey data.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]');
+  const r=document.documentElement;
+  let d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  r.setAttribute('data-theme',d);
+  const icons={
+    dark:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    light:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+  };
+  if(t){
+    t.innerHTML=icons[d];
+    t.addEventListener('click',()=>{
+      d=d==='dark'?'light':'dark';
+      r.setAttribute('data-theme',d);
+      t.innerHTML=icons[d];
+      t.setAttribute('aria-label','Switch to '+(d==='dark'?'light':'dark')+' mode');
+    });
+  }
+  // Animate bars on intersection
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.rating-fill[data-width]').forEach(bar=>{
+          const w=bar.getAttribute('data-width');
+          setTimeout(()=>{bar.style.width=w+'%';},150);
+        });
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.sentiment-card').forEach(c=>io.observe(c));
+})();
+</script>
+</body>
+</html>
